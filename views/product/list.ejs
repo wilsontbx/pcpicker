@@ -1,0 +1,28 @@
+<%- include('../partials/header'); %>
+
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th scope="col">Parts</th>
+            <th scope="col">Selection</th>
+            <th scope="col">Price(SGD)</th>
+            <th scope="col"></th>
+            <th scope="col"></th>
+        </tr>
+    </thead>
+
+    <tbody>
+        <% for (let key in product) { %>
+        <tr>
+            <td><%=product[key] %></td>
+            <td><a href="/pcpicker/<%=key %>"><button type="button" class="btn btn-primary"><%='Choose a '+product[key] %></button></a></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <%}%>
+    </tbody>
+    
+</table>
+
+<%- include('../partials/footer'); %>

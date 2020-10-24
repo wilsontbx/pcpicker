@@ -1,0 +1,11 @@
+<%- include('../partials/header'); -%>
+<div class="box">
+    <H1><%= pageTitle %></H1>
+    <% users.forEach(user => { %>
+    <h5><%= user.username  %> </h5>
+    <a href="/users/<%= user.username  %>/cart"> <button type="button" class="btn btn-success">Cart</button></a>
+    <% }) %>
+</div>
+
+
+<%- include('../partials/footer'); -%>
