@@ -11,7 +11,7 @@ const userSchema = new mongoose.Schema({
         required: true,
         max: 100
     },
-    user_name: {
+    username: {
         type: String,
         required: true,
         unique: true,
@@ -34,9 +34,21 @@ const userSchema = new mongoose.Schema({
         type: Date,
         required: true,
         default: Date.now
-    }
+    },
+    build: [{
+        created_at: {
+            type: Date,
+            required: true,
+            default: Date.now
+        },
+        updated_at: {
+            type: Date,
+            required: true,
+            default: Date.now
+        },
+    }],
 })
 
-const UserModel = mongoose.model('User', userSchema)
+const UserModel = mongoose.model('Users', userSchema)
 
 module.exports = UserModel

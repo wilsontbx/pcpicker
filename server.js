@@ -2,7 +2,9 @@ require('dotenv').config()
 const express = require('express');
 const methodOverride = require('method-override')
 const mongoose = require('mongoose');
-const productsControllers = require('./controllers/productsControllers');
+const session = require('express-session')
+const productsControllers = require('./controllers/ProductsControllers');
+const usersController = require('./controllers/UsersControllers')
 const app = express();
 const port = 3000;
 
@@ -18,15 +20,32 @@ app.use(express.urlencoded({
     extended: true
 }))
 
+app.use(session({
+    secret: process.env.SESSION_SECRET,
+    name: "app_session",
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: false, maxAge: 3600000 } // 3600000ms = 3600s = 60mins, cookie expires in an hour
+}))
+
+app.use(setUserVarMiddleware)
+
 //ROUTES
-app.get('/pcpicker/list',productsControllers.getlist)
-app.get('/pcpicker/:product',productsControllers.listProduct)
+app.get('/pcpicker/list', authenticatedOnlyMiddleware, productsControllers.getlist)
+app.patch('/pcpicker/:product', authenticatedOnlyMiddleware, productsControllers.addBuild)
+app.get('/pcpicker/:product', authenticatedOnlyMiddleware, productsControllers.listProduct)
+app.get('/users/register', guestOnlyMiddleware, usersController.showRegistrationForm)
+app.post('/users/register', guestOnlyMiddleware, usersController.register)
+app.get('/users/login', guestOnlyMiddleware, usersController.showLoginForm)
+app.post('/users/login', guestOnlyMiddleware, usersController.login)
+app.get('/users/profile', authenticatedOnlyMiddleware, usersController.profile)
+app.post('/users/logout', usersController.logout)
 
 //LISTENER
 mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
     .then(response => {
         console.log('DB connection is successful')
-        app.listen(port, () => {
+        app.listen(process.env.PORT || port, () => {
             console.log(`PC Picker app listening on port: ${port}`)
         })
     })
@@ -34,3 +53,35 @@ mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
         console.log(err)
     })
 
+function guestOnlyMiddleware(req, res, next) {
+    // check if users if logged in,
+    // if logged in, redirect back to dashboard
+    if (req.session && req.session.user) {
+        res.redirect('/pcpicker/list')
+        return
+    }
+
+    next()
+}
+
+function authenticatedOnlyMiddleware(req, res, next) {
+    if (!req.session || !req.session.user) {
+        res.redirect('/users/login')
+        return
+    }
+
+    next()
+}
+
+function setUserVarMiddleware(req, res, next) {
+    // default users template var set to null
+    res.locals.user = null
+
+    // check if req.session.users is set,
+    // if set, template users var will be set as well
+    if (req.session && req.session.user) {
+        res.locals.user = req.session.user
+    }
+
+    next()
+}

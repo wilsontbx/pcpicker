@@ -22,6 +22,10 @@ const productSchema = new mongoose.Schema({
         type: mongoose.Types.Decimal128,
         required: true
     },
+    url:{
+        type: String,
+        required: true
+    },
     image: String,
     properties: {
         // required: true

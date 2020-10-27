@@ -1,7 +1,7 @@
 require('dotenv').config()
 const mongoose = require('mongoose')
 const productData = require('../models/seedData/newProduct')
-const ProductModel = require('../models/product')
+const ProductModel = require('../models/products')
 
 const mongoURI = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@${process.env.DB_HOST}/${process.env.DB_NAME}`
 
