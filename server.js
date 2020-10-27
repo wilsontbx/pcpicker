@@ -31,6 +31,7 @@ app.use(session({
 app.use(setUserVarMiddleware)
 
 //ROUTES
+app.get('/pcpicker/index', productsControllers.index)
 app.get('/pcpicker/list', authenticatedOnlyMiddleware, productsControllers.getlist)
 app.patch('/pcpicker/:product', authenticatedOnlyMiddleware, productsControllers.addBuild)
 app.get('/pcpicker/:product', authenticatedOnlyMiddleware, productsControllers.listProduct)

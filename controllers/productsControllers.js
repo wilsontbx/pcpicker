@@ -4,7 +4,11 @@ const BuildModel = require('../models/build')
 const productList = { 'cpu': 'CPU', 'cooler': 'CPU Cooler', 'motherboard': 'Motherboard', 'ram': 'RAM', 'gpu': 'GPU', 'storage': 'Storage', 'psu': 'Power Supply', 'case': 'Case' }
 
 const productsControllers = {
-
+    index:(req,res)=>{
+        res.render('product/index',{
+            pageTitle: 'PC Picker'
+        })
+    },
     getlist: (req, res) => {
         BuildModel.findOne({
             username: req.session.user.username

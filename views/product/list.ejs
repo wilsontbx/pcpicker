@@ -21,7 +21,7 @@
             <td></td>
             <td></td>
             <% }else{ %>
-            <td><%= userBuild[key].name %></td>
+            <td><%= userBuild[key].name %><a href="/pcpicker/<%= key %> "> Change</a></td>
             <td><%= userBuild[key].price %></td>
             <td><a href="<%= userBuild[key].url %>" target="_blank"><button type="submit" class="btn btn-success">BUY</button></a></td>
             <td>
