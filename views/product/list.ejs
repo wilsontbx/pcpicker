@@ -1,5 +1,4 @@
 <%- include('../partials/header'); %>
-
 <table class="table table-hover">
     <thead>
         <tr>
@@ -14,7 +13,7 @@
     <tbody>
         <% for (let key in product) { %>
         <tr>
-            <td><%=product[key] %></td>
+            <th scope="row"><%=product[key] %></th>
             <% if(!userBuild[key]){ %>
             <td><a href="/pcpicker/<%=key %>"><button type="button" class="btn btn-primary"><%='Choose a '+product[key] %></button></a></td>
             <td></td>
