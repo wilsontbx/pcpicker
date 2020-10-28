@@ -26,7 +26,11 @@ const buildSchema = new mongoose.Schema({
         storage: {},
         psu: {},
         case: {},
-    }
+        totalPrice:{
+            type:mongoose.Types.Decimal128,
+            default:0
+        },
+    },
 })
 
 const BuildModel = mongoose.model('Builds', buildSchema)

@@ -1,11 +1,13 @@
 const ProductModel = require('../models/products')
 const UserModel = require('../models/users')
 const BuildModel = require('../models/build')
+const CollectionModel = require('../models/collection')
+const { result } = require('lodash')
 const productList = { 'cpu': 'CPU', 'cooler': 'CPU Cooler', 'motherboard': 'Motherboard', 'ram': 'RAM', 'gpu': 'GPU', 'storage': 'Storage', 'psu': 'Power Supply', 'case': 'Case' }
 
 const productsControllers = {
-    index:(req,res)=>{
-        res.render('product/index',{
+    index: (req, res) => {
+        res.render('product/index', {
             pageTitle: 'PC Picker'
         })
     },
@@ -69,10 +71,18 @@ const productsControllers = {
                 })
                     .then(resultProduct => {
                         newBuild[type] = resultProduct
+                        newBuild.totalPrice = 0
+                        for (let key in productList) {
+                            if (newBuild[key]) {
+                                let num = newBuild[key].price
+                                newBuild.totalPrice += num
+                            }
+                        }
                         BuildModel.updateOne({
                             username: req.session.user.username
                         }, {
-                            currentBuild: newBuild
+                            currentBuild: newBuild,
+                            updated_at:Date.now()
                         })
                             .then(result => {
                                 res.redirect('/pcpicker/list')
@@ -94,37 +104,6 @@ const productsControllers = {
     },
 }
 
+
+
 module.exports = productsControllers
-
-// UserModel.findOne({
-//     username: req.session.user.username
-// })
-//     .then(result => {
-//         if (!result) {
-//             res.redirect('/pcpicker/list')
-//             return
-//         }
-
-
-//         let newBuild = {}
-//         if (result.currentBuild) {
-//             newBuild = result.currentBuild
-//         }
-//         newBuild[type] = slug
-//         UserModel.updateOne({
-//             username: req.session.user.username
-//         }, {
-//             currentBuild: newBuild
-//         })
-//             .then(result => {
-//                 res.redirect('/pcpicker/list')
-//             })
-//             .catch(err => {
-//                 console.log(err)
-//                 res.redirect('/pcpicker/list')
-//             })
-//     })
-//     .catch(err => {
-//         console.log(err)
-//         res.redirect('/pcpicker/list')
-//     })

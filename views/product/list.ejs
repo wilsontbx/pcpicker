@@ -15,14 +15,16 @@
         <tr>
             <th scope="row"><%=product[key] %></th>
             <% if(!userBuild[key]){ %>
-            <td><a href="/pcpicker/<%=key %>"><button type="button" class="btn btn-primary"><%='Choose a '+product[key] %></button></a></td>
+            <td><a href="/pcpicker/<%=key %>"><button type="button"
+                        class="btn btn-primary"><%='Choose a '+product[key] %></button></a></td>
             <td></td>
             <td></td>
             <td></td>
             <% }else{ %>
             <td><%= userBuild[key].name %><a href="/pcpicker/<%= key %> "> Change</a></td>
             <td><%= userBuild[key].price %></td>
-            <td><a href="<%= userBuild[key].url %>" target="_blank"><button type="submit" class="btn btn-success">BUY</button></a></td>
+            <td><a href="<%= userBuild[key].url %>" target="_blank"><button type="submit"
+                        class="btn btn-success">BUY</button></a></td>
             <td>
                 <form method="POST" action="/pcpicker/<%= key %>?_method=PATCH">
                     <button type="submit" class="btn btn-danger" name="item" value="">DELETE</button>
@@ -31,8 +33,28 @@
             <% } %>
         </tr>
         <%}%>
+        <tr>
+            <td></td>
+            <td></td>
+            <td><%= 'Total: '+userBuild.totalPrice %> </td>
+        <td></td>
+        <td></td>
+        </tr>
     </tbody>
-    
 </table>
-
+<form method="POST" action="/collection/">
+    <div class="form-group">
+        <label for="title">Title</label>
+        <input type="text" class="form-control" id="title" name="title" />
+    </div>
+    <div class="form-group">
+        <label for="img-url">Image URL</label>
+        <input type="url" class="form-control" id="img-url" placeholder="www.example.com" name="image" id="img-url">
+    </div>
+    <div class="form-group">
+        <label for="description">Description</label>
+        <textarea type="text" class="form-control" rows="3" name="description" id="description"></textarea>
+    </div>
+    <button type="submit" class="btn btn-info">SHARE!</button>
+</form>
 <%- include('../partials/footer'); %>

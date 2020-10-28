@@ -18,3 +18,13 @@
 	bottom:0;
     margin: auto;   
 }
+body{
+    background-color: black;
+}
+.container{
+    background-color: white;
+}
+nav{
+    color: darkblue;
+}
+

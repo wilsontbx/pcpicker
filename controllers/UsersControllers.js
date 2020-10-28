@@ -3,7 +3,7 @@ const SHA256 = require("crypto-js/sha256")
 const UserModel = require('../models/users')
 const BuildModel = require('../models/build')
 
-const controllers = {
+const userControllers = {
 
     showRegistrationForm: (req, res) => {
         res.render('users/register', {
@@ -120,4 +120,4 @@ const controllers = {
 
 }
 
-module.exports = controllers
+module.exports = userControllers

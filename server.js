@@ -4,7 +4,8 @@ const methodOverride = require('method-override')
 const mongoose = require('mongoose');
 const session = require('express-session')
 const productsControllers = require('./controllers/ProductsControllers');
-const usersController = require('./controllers/UsersControllers')
+const usersController = require('./controllers/UsersControllers');
+const collectionControllers = require('./controllers/CollectionControllers');
 const app = express();
 const port = 3000;
 
@@ -35,6 +36,10 @@ app.get('/pcpicker', productsControllers.index)
 app.get('/pcpicker/list', authenticatedOnlyMiddleware, productsControllers.getlist)
 app.patch('/pcpicker/:product', authenticatedOnlyMiddleware, productsControllers.addBuild)
 app.get('/pcpicker/:product', authenticatedOnlyMiddleware, productsControllers.listProduct)
+
+app.get('/collection',collectionControllers.collection)
+app.post('/collection',authenticatedOnlyMiddleware, collectionControllers.newCollection)
+
 app.get('/users/register', guestOnlyMiddleware, usersController.showRegistrationForm)
 app.post('/users/register', guestOnlyMiddleware, usersController.register)
 app.get('/users/login', guestOnlyMiddleware, usersController.showLoginForm)
