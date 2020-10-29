@@ -1,3 +1,24 @@
+.collection-board{
+	position:relative;
+    width: 350px;
+    height: 400px;
+    border: 1px solid black;
+    margin: 5px;
+    padding: 5px;
+    overflow: auto;
+    border-radius: 10px;
+    background-color: white;
+}
+.collection-size{
+    max-width:100%;
+    max-height:100%;
+	position:absolute;
+	left:0;
+	right:0;
+	top:0;
+	bottom:0;
+	margin:auto;
+}
 .image-box{
 	position:relative;
     width: 100px;
@@ -28,3 +49,43 @@ nav{
     color: darkblue;
 }
 
+
+.like-button{
+    padding: 0;
+    border: none;
+    background: none;
+    font-size:16px;
+    display: center;
+}
+
+#form-id{
+    display: grid;
+}
+
+#liked{
+    color: blue;
+}
+
+#like{
+    color: black;
+}
+
+#like-status{
+    color: darkblue;
+}
+
+#comment{
+    display: none;
+}
+
+#comment-button{
+    padding: 0;
+    border: none;
+    background: none;
+    color: black;
+    font-size:16px
+}
+
+.time{
+    font-size:10px
+}

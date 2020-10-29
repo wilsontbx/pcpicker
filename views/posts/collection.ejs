@@ -1,5 +1,49 @@
 <%- include('../partials/header'); %>
-    
 
+<div class="d-flex flex-wrap">
+    <% collection.forEach((element,index) => { %>
+    <div>
+        <div class="collection-board"><img class="collection-size" src="<%= element.img %>"/>
+            <span class="card-title" style="background-color: rgba(0,0,0,0.7)"><%= element.title  %> </span>
+        </div>
+        <i class='fas fa-user-circle' style='font-size:30px'> <%= element.username %> </i>
+        <p><%= element.description %> </p>
+        <i class='far fa-thumbs-up' style='font-size:30px' id="like-status"> <%= element.likes.length %></i>
+        <div class="row">
+        <form method="POST" action="/collection/like/<%= element._id %>" class="col" id="form-id">
+
+                <% if(element.likes.indexOf(user.username) !== -1){ %>
+                <button type="submit" class="like-button" id="liked">
+                    <i class='fas fa-thumbs-up'> Like</i></button>
+                <% }else{%>
+                <button type="submit" class="like-button" id="like">
+                    <i class='far fa-thumbs-up'> Like</i></button>
+                <% } %>
+
+        </form>
+        <button onclick="myFunction()" id="comment-button" class="col">
+            <i class='far fa-comment-alt'> Comment</i>
+        </button>
+        </div>
+    
+        <form method="POST" action="/collection/comment/<%= element._id %>">
+            <div class="form-group row">
+                <div class="col-md-auto"><i class='fas fa-user-circle' style='font-size:30px'></i></div>
+                <div class="col"><input class="form-control form-control-sm col" id="comment-box" name="comment" /></div>
+            </div>
+            <button type="submit" class="btn btn-info" id="comment">Submit</button>
+        </form>
+
+        <div>
+            <% element.comments.forEach(elementComment => { %>
+                <i class='fas fa-user-circle' style='font-size:20px'> <%=elementComment.username %> </i>
+
+                <p><%=elementComment.content %> </p>
+                <p class="time"><%=elementComment.created_at%> </p>
+            <% }); %> 
+        </div>
+    </div>
+    <% }) %>
+</div>
 
 <%- include('../partials/footer'); %>

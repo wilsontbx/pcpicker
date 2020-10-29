@@ -37,8 +37,10 @@ app.get('/pcpicker/list', authenticatedOnlyMiddleware, productsControllers.getli
 app.patch('/pcpicker/:product', authenticatedOnlyMiddleware, productsControllers.addBuild)
 app.get('/pcpicker/:product', authenticatedOnlyMiddleware, productsControllers.listProduct)
 
-app.get('/collection',collectionControllers.collection)
+app.get('/collection',authenticatedOnlyMiddleware, collectionControllers.collection)
 app.post('/collection',authenticatedOnlyMiddleware, collectionControllers.newCollection)
+app.post('/collection/like/:id',authenticatedOnlyMiddleware, collectionControllers.giveLike)
+app.post('/collection/comment/:id',authenticatedOnlyMiddleware, collectionControllers.giveComment)
 
 app.get('/users/register', guestOnlyMiddleware, usersController.showRegistrationForm)
 app.post('/users/register', guestOnlyMiddleware, usersController.register)

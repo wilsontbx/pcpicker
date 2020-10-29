@@ -14,8 +14,17 @@ const collectionSchema = new mongoose.Schema({
     image:String,
     description: String,
     likes: [String],
-    comment: [{
-        content: String,
+    comments: [{
+        username:{
+            type: String,
+            required: true,
+            max: 100
+        },
+        content: {
+            type: String,
+            required: true,
+            max: 100
+        },
         created_at: {
             type: Date,
             required: true,

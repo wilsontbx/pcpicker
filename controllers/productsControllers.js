@@ -71,18 +71,20 @@ const productsControllers = {
                 })
                     .then(resultProduct => {
                         newBuild[type] = resultProduct
-                        newBuild.totalPrice = 0
+                        let totalNum = 0
                         for (let key in productList) {
                             if (newBuild[key]) {
                                 let num = newBuild[key].price
-                                newBuild.totalPrice += num
+                                let floatNum = parseFloat(num)
+                                totalNum += floatNum
                             }
                         }
+                        newBuild.totalPrice = totalNum
                         BuildModel.updateOne({
                             username: req.session.user.username
                         }, {
                             currentBuild: newBuild,
-                            updated_at:Date.now()
+                            updated_at: Date.now()
                         })
                             .then(result => {
                                 res.redirect('/pcpicker/list')
