@@ -32,15 +32,25 @@ app.use(session({
 app.use(setUserVarMiddleware)
 
 //ROUTES
-app.get('/pcpicker', productsControllers.index)
+app.get('/',authenticatedOnlyMiddleware, productsControllers.index)
 app.get('/pcpicker/list', authenticatedOnlyMiddleware, productsControllers.getlist)
 app.patch('/pcpicker/:product', authenticatedOnlyMiddleware, productsControllers.addBuild)
 app.get('/pcpicker/:product', authenticatedOnlyMiddleware, productsControllers.listProduct)
+app.post('/pcpicker/:id', authenticatedOnlyMiddleware, productsControllers.addCollectionToBuild)
 
 app.get('/collection',authenticatedOnlyMiddleware, collectionControllers.collection)
+app.get('/collection/new',authenticatedOnlyMiddleware, collectionControllers.showNewCollectionForm)
+app.get('/collection/:id',authenticatedOnlyMiddleware, collectionControllers.showCollection)
 app.post('/collection',authenticatedOnlyMiddleware, collectionControllers.newCollection)
 app.post('/collection/like/:id',authenticatedOnlyMiddleware, collectionControllers.giveLike)
 app.post('/collection/comment/:id',authenticatedOnlyMiddleware, collectionControllers.giveComment)
+// app.get('/collection/edit/from/:id',authenticatedOnlyMiddleware, collectionControllers.showEditFrom)
+// app.get('/collection/edit/:product', authenticatedOnlyMiddleware, collectionControllers.listProductEdit)
+// app.patch('/collection/edit/:product/', authenticatedOnlyMiddleware, collectionControllers.addBuildForEdit)
+
+
+// app.patch('/collection/:id',authenticatedOnlyMiddleware, collectionControllers.editCollection)
+app.delete('/collection/:id',authenticatedOnlyMiddleware, collectionControllers.deleteCollection)
 
 app.get('/users/register', guestOnlyMiddleware, usersController.showRegistrationForm)
 app.post('/users/register', guestOnlyMiddleware, usersController.register)

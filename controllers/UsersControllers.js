@@ -2,6 +2,9 @@ const uuid = require('uuid')
 const SHA256 = require("crypto-js/sha256")
 const UserModel = require('../models/users')
 const BuildModel = require('../models/build')
+const EditModel = require('../models/edit')
+const CollectionModel = require('../models/collection')
+const { result } = require('lodash')
 
 const userControllers = {
 
@@ -68,6 +71,18 @@ const userControllers = {
                         console.log(err)
                         res.redirect('/users/register')
                     })
+
+
+                EditModel.create({
+                    username: req.body.username,
+                })
+                    .then(createResult => {
+                        res.redirect('/pcpicker/list')
+                    })
+                    .catch(err => {
+                        console.log(err)
+                        res.redirect('/users/register')
+                    })
             })
             .catch(err => {
                 console.log(err)
@@ -109,9 +124,39 @@ const userControllers = {
             })
     },
     profile: (req, res) => {
-        res.render('users/profile', {
-            pageTitle: 'User Profile'
+        UserModel.findOne({
+            username: req.session.user.username
         })
+            .then(userResult => {
+                if (!userResult) {
+                    res.redirect('/users/login')
+                    return
+                }
+                CollectionModel.find({
+                    username: req.session.user.username
+                })
+                    .sort({ updated_at: 'desc' })
+                    .then(postResult => {
+                        if (!postResult) {
+                            res.redirect('/users/login')
+                            return
+                        }
+                        res.render('users/profile', {
+                            pageTitle: 'User Profile',
+                            info: userResult,
+                            post: postResult
+                        })
+                    })
+                    .catch(err => {
+                        console.log(err)
+                        res.redirect('/users/login')
+                    })
+
+            })
+            .catch(err => {
+                console.log(err)
+                res.redirect('/users/login')
+            })
     },
     logout: (req, res) => {
         req.session.destroy()

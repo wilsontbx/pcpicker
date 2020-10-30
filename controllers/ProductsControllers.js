@@ -43,7 +43,8 @@ const productsControllers = {
                 }
                 res.render('product/selection', {
                     pageTitle: "Choose a " + productList[type],
-                    items: result
+                    items: result,
+
                 })
             })
             .catch(err => {
@@ -104,6 +105,35 @@ const productsControllers = {
                 res.redirect('/pcpicker/list')
             })
     },
+    addCollectionToBuild: (req, res) => {
+        const id = req.params.id
+        CollectionModel.findOne({
+            _id: id
+        })
+            .then(result => {
+                if (!result) {
+                    res.redirect('/collection')
+                    return
+                }
+                let newBuild = result.build
+                BuildModel.updateOne({
+                    username: req.session.user.username
+                },{
+                    currentBuild: newBuild,
+                })
+                .then(result => {
+                    res.redirect('/pcpicker/list')
+                })
+                .catch(err => {
+                    console.log(err)
+                    res.redirect('/collection/'+id)
+                })
+            })
+            .catch(err => {
+                console.log(err)
+                res.redirect('/collection')
+            })
+    }
 }
 
 
