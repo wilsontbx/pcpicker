@@ -14,7 +14,7 @@
         <p><%= element.description %> </p>
         <hr class="line">
         <i class='far fa-thumbs-up' style='font-size:30px' id="like-status"> <%= element.likes.length %></i>
-
+        <hr class="line">  
         <div class="row">
             <form method="POST" action="/collection/like/<%= element._id %>" class="col" id="form-id">
 
